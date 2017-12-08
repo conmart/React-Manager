@@ -1,7 +1,9 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Text, ListView } from 'react-native';
+import { ListView } from 'react-native';
 import { connect } from 'react-redux';
 import { employeesFetch } from '../actions';
+import ListItem from './ListItem';
 
 class EmployeeList extends Component {
   componentWillMount() {
@@ -10,7 +12,7 @@ class EmployeeList extends Component {
     this.createDataSource(this.props);
   }
 
-  componenetWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     // nextProps are next set of props the component will be rendered with
     // this.props is the old set of props
     this.createDataSource(nextProps);
@@ -24,26 +26,28 @@ class EmployeeList extends Component {
     this.dataSource = ds.cloneWithRows(employees);
   }
 
-  // renderEmployees() {
-  //   for (let employee in this.props.employees) {
-  //     return <Text>{employee.name}</Text>
-  //   }
-  // }
+  renderRow(employee) {
+    return <ListItem employee={employee} />;
+  }
 
   render() {
+    console.log(this.props);
     return (
-      <View>
-        <Text>Employee List</Text>
-        <Text>Employee List</Text>
-        <Text>Employee List</Text>
-        <Text>Employee List</Text>
-      </View>
+      <ListView
+        enableEmptySections
+        dataSource={this.dataSource}
+        renderRow={this.renderRow}
+      />
     );
   }
 }
 
 const mapStateToProps = state => {
-  
+  const employees = _.map(state.employees, (val, uid) => {
+    return { ...val, uid }; // {shift: 'Monday', name: 'Jane', uid: some id}
+  });
+
+  return { employees };
 }
 
-export default connect (null, { employeesFetch })(EmployeeList);
+export default connect (mapStateToProps, { employeesFetch })(EmployeeList);
