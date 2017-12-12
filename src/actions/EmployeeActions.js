@@ -68,7 +68,6 @@ export const employeeDelete = ({ uid }) => {
 
 export const clearEmployeeForm = () => {
   return {
-    type: CLEAR_EMPLOYEE,
-    payload: []
+    type: CLEAR_EMPLOYEE
   }
 }

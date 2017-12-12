@@ -21,7 +21,6 @@ export default (state = INITIAL_STATE, action) => {
     case EMPLOYEE_SAVE_SUCCESS:
       return INITIAL_STATE;
     case CLEAR_EMPLOYEE:
-      console.log('hit clear employee');
       return INITIAL_STATE;
     default:
       return state;
